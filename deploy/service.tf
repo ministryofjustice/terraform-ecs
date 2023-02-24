@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "this" {
   network_mode             = var.network_mode
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  execution_role_arn       = var.task_exec_role_arn
+  execution_role_arn       = var.task_exec_role_arn[0]
   task_role_arn            = length(local.task_role_arn) > 0 ? local.task_role_arn : aws_iam_role.ecs_task[0].arn
 
   dynamic "proxy_configuration" {
@@ -173,7 +173,7 @@ resource "aws_ecs_service" "default" {
   dynamic "network_configuration" {
     for_each = var.network_mode == "awsvpc" ? ["true"] : []
     content {
-      security_groups  = compact(concat(var.security_group_ids, aws_security_group.ecs_service[0].id))
+      security_groups  = compact(concat(var.security_group_ids, aws_security_group.ecs_service.*.id))
       subnets          = var.subnet_ids
       assign_public_ip = var.assign_public_ip
     }
