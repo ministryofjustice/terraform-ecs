@@ -1,14 +1,12 @@
 <!-- Rename the heading when using this template -->
-# cloud-platform-terraform-_template_
+# modernisation-platform-terraform-ecs//cluster
 
-<!-- Remove this note -->
-_Note: See the [source of this file](https://github.com/ministryofjustice/cloud-platform-terraform-template/blob/main/README.md?plain=1) for inline comments to help you complete this file._
 
 <!-- Change the URL in the release badge to point towards your new repository -->
-[![Releases](https://img.shields.io/github/release/ministryofjustice/cloud-platform-terraform-template/all.svg?style=flat-square)](https://github.com/ministryofjustice/cloud-platform-terraform-template/releases)
+[![Releases](https://img.shields.io/github/release/ministryofjustice/terraform-ecs/all.svg?style=flat-square)](https://github.com/ministryofjustice/terraform-ecs/releases)
 
 <!-- Add a short description of the module -->
-This Terraform module will...
+This module is used to deploy an ECS cluster. It provides flexibility in capacity by allowing EC2 Auto Scale Group Capacity providers or Fargate with/without SPOT support.
 
 ## Usage
 
@@ -16,8 +14,13 @@ This Terraform module will...
 
 <!-- Change the source URL below to point towards your new repository -->
 ```hcl
-module "template" {
-  source = "github.com/ministryofjustice/cloud-platfrom-terraform-template?ref=version"
+module "ecs-new" {
+  source = "github.com/ministryofjustice/terraform-ecs//cluster"
+
+  environment = local.environment
+  name        = format("%s-new", local.application_name)
+
+  tags = local.tags
 }
 ```
 
@@ -75,15 +78,15 @@ No resources.
 
 Some of the inputs for this module are tags. All infrastructure resources must be tagged to meet the MOJ Technical Guidance on [Documenting owners of infrastructure](https://technical-guidance.service.justice.gov.uk/documentation/standards/documenting-infrastructure-owners.html).
 
-| Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| application |  | string | - | yes |
-| business-unit | Area of the MOJ responsible for the service | string | `mojdigital` | yes |
-| environment-name |  | string | - | yes |
-| infrastructure-support | The team responsible for managing the infrastructure. Should be of the form team-email | string | - | yes |
-| is-production |  | string | `false` | yes |
-| team_name |  | string | - | yes |
-| namespace |  | string | - | yes |
+| Name                   | Description                                                                            |  Type  |   Default    | Required |
+| ---------------------- | -------------------------------------------------------------------------------------- | :----: | :----------: | :------: |
+| application            |                                                                                        | string |      -       |   yes    |
+| business-unit          | Area of the MOJ responsible for the service                                            | string | `mojdigital` |   yes    |
+| environment-name       |                                                                                        | string |      -       |   yes    |
+| infrastructure-support | The team responsible for managing the infrastructure. Should be of the form team-email | string |      -       |   yes    |
+| is-production          |                                                                                        | string |   `false`    |   yes    |
+| team_name              |                                                                                        | string |      -       |   yes    |
+| namespace              |                                                                                        | string |      -       |   yes    |
 -->
 
 ## Reading Material
